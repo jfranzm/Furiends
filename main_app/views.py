@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
+from .forms import PictureForm
 
 S3_BASE_URL = 'https://s3-accesspoint.ca-central-1.amazonaws.com'
 BUCKET = 'furiends'
@@ -25,7 +26,18 @@ def add_photo(request, picture_id):
     return redirect('detail', picture_id=picture_id)
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    picture_form = PictureForm()
+    return render(request, 'home.html', {
+        'picture_form': picture_form
+    })
+
+def add_picture(request, user):
+    form = PictureForm(request.POST)
+    if form.is_valid():
+        new_picture = form.save(commit=False)
+        new_picture.picture_id = user
+        new_picture.save()
+    return render('home.html')
 
 def signup(request):
     if request.method == 'POST':
