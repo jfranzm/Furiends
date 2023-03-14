@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 import uuid
 import boto3
-from .models import Photo
-from django.views.generic import ListView, DetailView
+from .models import Photo,Post
+from django.views.generic import ListView, DetailView, CreateView
 # Add the two imports below
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -31,13 +31,6 @@ def home(request):
         'picture_form': picture_form
     })
 
-def add_picture(request, user):
-    form = PictureForm(request.POST)
-    if form.is_valid():
-        new_picture = form.save(commit=False)
-        new_picture.picture_id = user
-        new_picture.save()
-    return render('home.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -52,3 +45,27 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+def about(request):
+    return render(request, 'about.html')
+
+def my_profile(request):
+    return render(request, 'my_profile.html')
+
+def post_detail(request, post_id):
+  post = Post.objects.get(id=post_id)
+  return render(request, 'my_profile/post_detail.html', {'post': post
+  })
+
+def add_picture(request, user):
+    form = PictureForm(request.POST)
+    if form.is_valid():
+        new_picture = form.save(commit=False)
+        new_picture.picture_id = user
+        new_picture.save()
+    return render('home.html')
+
+class PostCreate(CreateView):
+  model = Post
+  fields = [ 'caption', 'date']
+  success_url = '/'
