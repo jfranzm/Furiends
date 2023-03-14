@@ -65,7 +65,6 @@ def add_picture(request, user):
         new_picture.save()
     return render('home.html')
 
-class PostCreate(CreateView):
-  model = Post
-  fields = [ 'caption', 'date']
-  success_url = '/'
+def PostCreate(request):
+  return render(request, 'post_form.html')
+  
