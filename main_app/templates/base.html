@@ -9,16 +9,15 @@
     <title>FURIENDS</title>
     <!-- <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
-</head>
-<body>
-    <p>
-        <a href="{% url 'signup' %}">Sign Up</a>
-        <a href="{% url 'login' %}">Log In</a>
-        <a href="{% url 'logout' %}">Log Out</a>
-    </p>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'signup' %}">Sign Up</a>
+      <a href="{% url 'login' %}">Log In</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'post_create' %}"> Create Post</a>
+      <a href="{% url 'logout' %}">Log Out</a>
+    </nav>
+    <main>{% block content %} {% endblock %}</main>
+  </body>
 </html>

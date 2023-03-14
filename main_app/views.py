@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+import uuid
+import boto3
+from .models import Photo,Post
+from django.views.generic import ListView, DetailView, CreateView
 # Add the two imports below
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
-import uuid
-import boto3
-from .models import Photo
+from .forms import PictureForm
 
 S3_BASE_URL = 'https://s3-accesspoint.ca-central-1.amazonaws.com'
 BUCKET = 'furiends'
@@ -25,7 +26,11 @@ def add_photo(request, picture_id):
     return redirect('detail', picture_id=picture_id)
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    picture_form = PictureForm()
+    return render(request, 'home.html', {
+        'picture_form': picture_form
+    })
+
 
 def signup(request):
     if request.method == 'POST':
@@ -40,3 +45,26 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+def about(request):
+    return render(request, 'about.html')
+
+def my_profile(request):
+    return render(request, 'my_profile.html')
+
+def post_detail(request, post_id):
+  post = Post.objects.get(id=post_id)
+  return render(request, 'my_profile/post_detail.html', {'post': post
+  })
+
+def add_picture(request, user):
+    form = PictureForm(request.POST)
+    if form.is_valid():
+        new_picture = form.save(commit=False)
+        new_picture.picture_id = user
+        new_picture.save()
+    return render('home.html')
+
+def PostCreate(request):
+  return render(request, 'post_form.html')
+  
