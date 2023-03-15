@@ -1,3 +1,15 @@
 a {
-    color: None
+    color: None;
+}
+/* 
+#nav_new {
+    background-color: teal;
+} */
+#nav_new {
+ background-color: rgb(157, 226, 226);
+}
+
+#last_child {
+    position: absolute;
+    right: 10px;
 }
