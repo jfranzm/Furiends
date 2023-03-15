@@ -6,10 +6,15 @@ a {
     background-color: teal;
 } */
 #nav_new {
- background-color: rgb(157, 226, 226);
+ background-color: #F4B49C;
 }
 
 #last_child {
     position: absolute;
     right: 10px;
+}
+
+img {
+    height: 5em;
+    width: 5em;
 }
