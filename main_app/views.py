@@ -31,7 +31,7 @@ def login_auth(request):
     print(user_id.id)
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        return render(request, 'home.html', {'user_id': user_id.id})
+        return redirect(f'/home/{user_id.id}/')
         # Redirect to a success page.
     else:
         return render(request, '/')
@@ -44,24 +44,24 @@ def add_photo(request, user_id):
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}/{key}"
-            print(url)
-            print(user_id)            
+            # print(url)
+            # print(user_id)            
             user = User.objects.get(pk=user_id)
-            print(user)
+            # print(user)
             # print(type(date.today()))
             Photo.objects.create(url=url, user=user, likes = 1, caption='bird', category=2)
-            print('done')
+            # print('done')
         except:
             print('An error occurred uploading file to S3')
     return render (request, 'home.html', {'user_id': user_id})
 
 # Create your views here.
-def home(request):
-    user_id = request.user.id
-    print(user_id)
+def home(request, user_id):
+    # user_id = request.user.id
+    # print(user_id)
     picture_form = PictureForm()
     return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id':user_id
+        'picture_form': picture_form, 'user_id': user_id
     })
 
 
@@ -99,5 +99,6 @@ def add_picture(request, user):
     return render('home.html')
 
 def PostCreate(request):
-  return render(request, 'post_form.html')
+  photos = Photo.objects.get(pk=10)
+  return render(request, 'picture_comment.html', {'photos': photos})
   

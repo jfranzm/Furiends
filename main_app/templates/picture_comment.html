@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+<div class="full-page-comment">
+  <div class="comment-page">
+    <img class="image-comment" src="{{ photos.url }}" alt="" />
+    <div class="post-comment">
+      <div class="lower-post-comment">
+        <p>this bird looks awesome</p>
+        <p>
+          this bird looks awesome this bird looks awesome this bird looks
+          awesome this bird looks awesome
+        </p>
+        <p>this bird looks awesome</p>
+        <p>this bird looks awesome</p>
+        <p>this bird looks awesome</p>
+        <p>
+          this bird looks awesome this bird looks awesome this bird looks
+          awesome this bird looks awesome
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="comment-insert">
+    <textarea
+      name="comment"
+      class="comment-write"
+      cols="30"
+      rows="10"
+      maxlength="100"
+    ></textarea>
+
+    <button class="comment-submit"></button>
+  </div>
+</div>
+{%endblock %}
