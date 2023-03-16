@@ -1,4 +1,5 @@
 from django import forms
+from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
@@ -14,6 +15,8 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'is_superuser')
 
+    def get_absolute_url(self):
+        return reverse('home', kwargs={'user_id': self.id})
 
 class PictureForm(ModelForm):
     class Meta:
