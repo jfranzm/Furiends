@@ -1,15 +1,109 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<h1>Log In</h1>
+{% extends 'base.html' %} {% block content %}
 
 <!-- Add the login form -->
-<form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" class="btn" value="login">
-  <input type="hidden" name="next" value="{{ next }}">
-  
 
-</form>
+<div class="flex-container">
+  <div class="login-container">
+    <div class="inner-container">
+      <form method="post" action="{% url 'login_page' %}">
+        
+        <p>
+          <label for="id_username">Username:</label>
+          <input
+            type="text"
+            name="username"
+            autofocus=""
+            autocapitalize="none"
+            autocomplete="username"
+            maxlength="150"
+            required=""
+            id="id_username"
+          />
+        </p>
+        <p>
+          <label for="id_password">Password:</label>
+          <input
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required=""
+            id="id_password"
+          />
+        </p>
+        <input type="submit" class="btn" value="Log In" />
+      </form>
+    </div>
+  </div>
+  <div class="photo-container">
+    <div class="gallery">
+      {% for photo in photos %}
+
+      <div class="image">
+        <img
+          src="{{ photo.url }}"
+          alt=""
+        />
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const additionalX = { val: 0 };
+  let additionalXAnim;
+  let offset = 0;
+  let originalImages = gsap.utils.toArray(".image");
+  console.log("originalImages", originalImages);
+  const container = document.querySelector(".gallery");
+  console.log("container", container);
+  const sliderWidth = container.offsetWidth;
+
+  // DUPLICATE IMAGES FOR LOOP
+  originalImages.forEach((image) => {
+    var clone = image.cloneNode(true);
+    container.appendChild(clone);
+  });
+
+  let images = gsap.utils.toArray(".image");
+
+  // SET ANIMATION
+  images.forEach((item) => {
+    gsap.to(item, {
+      x: "-=" + Number(sliderWidth / 2),
+      duration: 30,
+      repeat: -1,
+      ease: "none",
+      modifiers: {
+        x: gsap.utils.unitize((x) => {
+          offset += additionalX.val;
+          x = (parseFloat(x) + offset) % -Number(sliderWidth * 0.5);
+          return x;
+        }),
+      },
+    });
+  });
+
+  const imagesScrollerTrigger = ScrollTrigger.create({
+    trigger: ".gallery",
+    start: "top 50%",
+    end: "bottom 50%",
+    onUpdate: function (self) {
+      const velocity = self.getVelocity();
+      if (velocity > 0) {
+        if (additionalXAnim) additionalXAnim.kill();
+        additionalX.val = -velocity / 2000;
+        additionalXAnim = gsap.to(additionalX, { val: 0 });
+      }
+      if (velocity < 0) {
+        if (additionalXAnim) additionalXAnim.kill();
+        additionalX.val = -velocity / 4000;
+        additionalXAnim = gsap.to(additionalX, { val: 0 });
+      }
+    },
+  });
+</script>
+
 {% endblock %}
