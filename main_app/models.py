@@ -13,7 +13,7 @@ class Photo(models.Model):
   url = models.CharField(max_length=200)
   caption = models.CharField(max_length=250)
   category = models.IntegerField(choices=TYPE)
-  date = models.DateField(default = date.today())
+  date = models.DateTimeField(auto_now_add=True)
   likes = models.BigIntegerField()
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -23,7 +23,7 @@ class Photo(models.Model):
 
 class Post(models.Model):
     caption = models.TextField(max_length=250)
-    date = models.DateField(default = date.today) 
+    date = models.DateTimeField(auto_now_add=True)
     likes = models.BigIntegerField()   
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE)

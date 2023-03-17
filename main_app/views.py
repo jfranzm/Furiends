@@ -28,16 +28,22 @@ def login_auth(request):
     username = request.POST['username']
     password = request.POST['password']
     user_id = User.objects.get(username=username)
-    print(user_id.id)
+    # print(user_id.id)
     user = authenticate(request, username=username, password=password)
     if user is not None:
         return redirect(f'/home/{user_id.id}/')
         # Redirect to a success page.
     else:
         return render(request, '/')
+    
+# def delete_photo(request, photo_id):
+#     Photo.objects.delete(pk=photo_id)
+#     return redirect('home.html')
 
 def add_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
+    caption = request.POST.get('caption')
+    category = request.POST.get('category')
     if photo_file:
         s3 = boto3.client('s3')
         key = 'furiends/' + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
@@ -49,7 +55,7 @@ def add_photo(request, user_id):
             user = User.objects.get(pk=user_id)
             # print(user)
             # print(type(date.today()))
-            Photo.objects.create(url=url, user=user, likes = 1, caption='bird', category=2)
+            Photo.objects.create(url=url, user=user, caption=caption, likes=0, category=category)
             # print('done')
         except:
             print('An error occurred uploading file to S3')
@@ -98,7 +104,19 @@ def add_picture(request, user):
         new_picture.save()
     return render('home.html')
 
-def PostCreate(request):
+def PostCreate(request, user_id):
   photos = Photo.objects.get(pk=10)
-  return render(request, 'picture_comment.html', {'photos': photos})
-  
+  user_instance = User.objects.get(pk=user_id)
+  posts = Post.objects.filter(user =user_instance, photo=photos).order_by('-id')
+#   print('normal', posts)
+  return render(request, 'picture_comment.html', {'photos': photos, 
+                                                  'user_id': user_id, 'posts':posts})
+@csrf_exempt  
+def PostCreateComment(request, user_id):
+    if request.method == 'POST':
+        post = request.POST.get('comment')
+        user = User.objects.get(pk=user_id)
+        photos = Photo.objects.get(pk=10)
+        Post.objects.create(caption=post, likes=0, user=user, photo=photos)
+        return redirect(f"/post/create/{user_id}/")
+    

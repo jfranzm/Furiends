@@ -4,32 +4,26 @@
     <img class="image-comment" src="{{ photos.url }}" alt="" />
     <div class="post-comment">
       <div class="lower-post-comment">
-        <p>this bird looks awesome</p>
-        <p>
-          this bird looks awesome this bird looks awesome this bird looks
-          awesome this bird looks awesome
-        </p>
-        <p>this bird looks awesome</p>
-        <p>this bird looks awesome</p>
-        <p>this bird looks awesome</p>
-        <p>
-          this bird looks awesome this bird looks awesome this bird looks
-          awesome this bird looks awesome
-        </p>
+        {% for post in posts %}
+        <p>{{ post.caption }}  <br>
+          <span class="date">{{ post.date|date:'Y-m-d H:i' }}</span></p>
+        {% endfor %}
       </div>
     </div>
   </div>
 
   <div class="comment-insert">
-    <textarea
-      name="comment"
-      class="comment-write"
-      cols="30"
-      rows="10"
-      maxlength="100"
-    ></textarea>
+    <form action="{% url 'post_create_comment' user_id %}" method="post">
+      <textarea
+        name="comment"
+        class="comment-write"
+        cols="30"
+        rows="10"
+        maxlength="100"
+      ></textarea>
 
-    <button class="comment-submit"></button>
+      <button class="comment-submit"></button>
+    </form>
   </div>
 </div>
 {%endblock %}

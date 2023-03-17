@@ -1,6 +1,15 @@
 a {
   color: None;
 }
+
+.date {
+  text-transform: uppercase;
+  color: #848484;
+  white-space: nowrap;
+  font-style: italic;
+  font-size: xx-small;
+  padding-left: 245px;
+}
 /* 
 #nav_new {
     background-color: teal;
@@ -125,22 +134,22 @@ hr {
 }
 
 .gallery {
-    z-index: 1;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: visible;
-    max-width: auto;
-    width: 400vh;
-    padding-top: 10%;
-    /* padding-bottom: 100vh; */
+  z-index: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: visible;
+  max-width: auto;
+  width: 400vh;
+  padding-top: 10%;
+  /* padding-bottom: 100vh; */
 }
 
 .image {
-    width: 30vw;
-    filter: blur(4px);
-    padding: 1rem;
-    align-items: center;
-    display: inline-flex;
+  width: 30vw;
+  filter: blur(4px);
+  padding: 1rem;
+  align-items: center;
+  display: inline-flex;
 }
 
 .image:nth-child(2n) {
@@ -171,12 +180,13 @@ hr {
   max-width: 914px;
 }
 
-.comment-page, .comment-insert, .post-comment {
+.comment-page,
+.comment-insert,
+.post-comment {
   border: solid 2px black;
   margin: 20px;
   border-radius: 30px;
   max-width: 914px;
-
 }
 
 /* .image-comment, .post-comment {
@@ -188,7 +198,6 @@ hr {
   width: 25em;
   border-radius: 10px;
   /* left: 0; */
-  
 }
 
 .lower-post-comment {
@@ -202,13 +211,10 @@ hr {
 .lower-post-comment > p {
   margin: 10px;
   border-radius: 50px;
-  background-image: linear-gradient(#25D366,white,#25D366);
+  background-image: linear-gradient(#25d366, white, #25d366);
   padding: 20px;
   font-size: small;
-
 }
-
-
 
 .image-comment {
   margin: 10px;
@@ -220,26 +226,26 @@ hr {
 .comment-insert {
   position: flex;
   flex-direction: row;
-  height: 10em;  
+  height: 10em;
   min-width: 914px;
 }
 
 .comment-submit {
   position: absolute;
   margin: 15px 0 0 15px;
-  background-image: url('../images/pngwing.png');
+  background-image: url("../images/pngwing.png");
   background-size: cover;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: None;
-  box-shadow: 0 9px #999;  
+  box-shadow: 0 9px #999;
   cursor: pointer;
   outline: none;
 }
 
 .comment-submit:hover {
-  background-color: #3e8e41
+  background-color: #3e8e41;
 }
 
 .comment-submit:active {
@@ -251,18 +257,15 @@ hr {
   /* border: solid 2px #f4b49c; */
   border-radius: 50px;
   /* background-color: #f4b49c; */
-  background-image: linear-gradient(#f4b49c,white, #f4b49c);
-  
+  background-image: linear-gradient(#f4b49c, white, #f4b49c);
   padding: 30px;
-  opacity: 30%;
+  /* opacity: 30%; */
   margin: 10px;
   margin-top: 15px;
   width: 80%;
-  height: 70%;
+  height: 7em;
   resize: None;
   overflow: hidden;
-
-  
 }
 
 .full-page-comment {
