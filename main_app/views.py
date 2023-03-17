@@ -19,7 +19,7 @@ S3_BASE_URL = f'https://{BUCKET}.s3.ca-central-1.amazonaws.com'
 @csrf_exempt
 def index(request):
     photos = Photo.objects.all()
-    # print(photos)
+    # print(photos.reverse())
     return render(request, "registration/login.html", {'photos': photos})
 
 @csrf_exempt
