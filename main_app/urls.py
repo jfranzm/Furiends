@@ -11,6 +11,7 @@ urlpatterns = [
     path('my_profile/', views.my_profile, name='my_profile'), 
     path('post/create/<int:user_id>/', views.PostCreate, name='post_create'),
     path('post/create/<int:user_id>/post/', views.PostCreateComment, name='post_create_comment'),
+    path('post/create/<int:user_id>/post/<int:post_id>/delete/', views.PostCreateDelete, name='post_create_delete'),
     path('my_profile/<int:user_id>/add_photo/', views.add_photo, name='add_photo'),
     path('my_profile/<int:post_id>/', views.post_detail, name='post_detail')
 

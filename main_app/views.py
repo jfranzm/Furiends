@@ -35,11 +35,17 @@ def login_auth(request):
         return redirect(f'/home/{user_id.id}/')
         # Redirect to a success page.
     else:
-        return render(request, '/')
+        return redirect('/')
     
 # def delete_photo(request, photo_id):
 #     Photo.objects.delete(pk=photo_id)
 #     return redirect('home.html')
+
+def PostCreateDelete(request, user_id, post_id):
+    print(user_id, post_id)
+    user_instance = User.objects.get(pk=user_id)
+    Post.objects.filter(pk=post_id, user=user_instance).delete()
+    return redirect(f'/post/create/{user_id}/')
 
 def add_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -81,7 +87,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('/')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -114,10 +120,12 @@ def PostCreate(request, user_id):
                                                   'user_id': user_id, 'posts':posts})
 @csrf_exempt  
 def PostCreateComment(request, user_id):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('comment'):
         post = request.POST.get('comment')
         user = User.objects.get(pk=user_id)
         photos = Photo.objects.get(pk=10)
         Post.objects.create(caption=post, likes=0, user=user, photo=photos)
+        return redirect(f"/post/create/{user_id}/")
+    else:
         return redirect(f"/post/create/{user_id}/")
     

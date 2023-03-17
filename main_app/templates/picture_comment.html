@@ -5,8 +5,12 @@
     <div class="post-comment">
       <div class="lower-post-comment">
         {% for post in posts %}
-        <p>{{ post.caption }}  
-          <br>
+        <p>
+          {{ post.caption }}
+          {% if post.user.id == user_id %}
+          <a href="{% url 'post_create_delete' user_id post.id %}" class="btn btn-outline-danger local-btn">Delete</a>
+          {% endif %}
+          <br />
           <span class="name">Posted By: {{ post.user.first_name }}</span>
           <span class="date">on: {{ post.date|date:'Y-m-d H:i' }}</span>
         </p>
@@ -29,4 +33,11 @@
     </form>
   </div>
 </div>
+
+<script>
+  let btn = document.querySelector(".btn");
+  btn.onclick = function () {
+    btn.classList.toggle("active");
+  };
+</script>
 {%endblock %}
