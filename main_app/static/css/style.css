@@ -2,13 +2,20 @@ a {
   color: None;
 }
 
-.date {
-  text-transform: uppercase;
+.name {
   color: #848484;
   white-space: nowrap;
   font-style: italic;
   font-size: xx-small;
-  padding-left: 245px;
+}
+
+.date {
+  /* text-transform: uppercase; */
+  color: #848484;
+  white-space: nowrap;
+  font-style: italic;
+  font-size: xx-small;
+  padding-left: 220px;
 }
 /* 
 #nav_new {

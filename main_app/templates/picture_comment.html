@@ -5,8 +5,11 @@
     <div class="post-comment">
       <div class="lower-post-comment">
         {% for post in posts %}
-        <p>{{ post.caption }}  <br>
-          <span class="date">{{ post.date|date:'Y-m-d H:i' }}</span></p>
+        <p>{{ post.caption }}  
+          <br>
+          <span class="name">Posted By: {{ post.user.first_name }}</span>
+          <span class="date">on: {{ post.date|date:'Y-m-d H:i' }}</span>
+        </p>
         {% endfor %}
       </div>
     </div>

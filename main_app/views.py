@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import uuid
 import boto3
+# from django.db.models import RawSQL
 from .models import Photo,Post
 from django.views.generic import ListView, DetailView, CreateView
 # Add the two imports below
@@ -106,8 +107,8 @@ def add_picture(request, user):
 
 def PostCreate(request, user_id):
   photos = Photo.objects.get(pk=10)
-  user_instance = User.objects.get(pk=user_id)
-  posts = Post.objects.filter(user =user_instance, photo=photos).order_by('-id')
+#   user_instance = User.objects.get(pk=user_id)
+  posts = Post.objects.filter(photo=photos).order_by('-id')
 #   print('normal', posts)
   return render(request, 'picture_comment.html', {'photos': photos, 
                                                   'user_id': user_id, 'posts':posts})
