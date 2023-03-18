@@ -1,5 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap');
+
+
 a {
   color: None;
+}
+
+.name {
+  color: #646464;
+  white-space: nowrap;
+  font-style: italic;
+  font-size: xx-small;
+}
+
+.date {
+  /* text-transform: uppercase; */
+  color: #646464;
+  white-space: nowrap;
+  font-style: italic;
+  font-size: x-small;
+  padding-left: 220px;
 }
 /* 
 #nav_new {
@@ -26,6 +45,26 @@ img {
   margin: auto;
   width: 75%;
   justify-content: space-evenly;
+}
+
+.signup-container {
+  display: block;
+  margin: 10% auto;
+  width: 65%;
+  max-width: 80vh;
+  height: auto;
+  max-height: 50%;
+  border: solid 2px #120a19;
+  background-color: #f4b49c;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.inner-container > form > p {
+  border-bottom: solid 1px #120a19;
+  border-radius: 10px;
+  margin: 5px;
 }
 
 .login-container,
@@ -67,7 +106,8 @@ hr {
   font-weight: bold;
 }
 .inner-container > form > p > input[type="text"],
-input[type="password"] {
+.inner-container > form > p > input[type="password"],
+.inner-container > form > p > input[type="email"] {
   display: block;
   margin: 2% auto;
   width: 85%;
@@ -78,7 +118,8 @@ input[type="password"] {
   background-color: #dbd6df;
 }
 
-.inner-container > form > input[type="submit"] {
+.inner-container > form > input[type="submit"],
+.inner-container > form > button {
   display: block;
   margin: 4% auto;
   width: 30%;
@@ -103,22 +144,22 @@ input[type="password"] {
 }
 
 .gallery {
-    z-index: 1;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: visible;
-    max-width: auto;
-    width: 400vh;
-    padding-top: 10%;
-    /* padding-bottom: 100vh; */
+  z-index: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: visible;
+  max-width: auto;
+  width: 400vh;
+  padding-top: 10%;
+  /* padding-bottom: 100vh; */
 }
 
 .image {
-    width: 30vw;
-    filter: blur(4px);
-    padding: 1rem;
-    align-items: center;
-    display: inline-flex;
+  width: 30vw;
+  filter: blur(4px);
+  padding: 1rem;
+  align-items: center;
+  display: inline-flex;
 }
 
 .image:nth-child(2n) {
@@ -139,4 +180,119 @@ input[type="password"] {
 
 * {
   box-sizing: border-box;
+}
+.comment-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  /* text-align: left; */
+  width: auto;
+  max-width: 914px;
+}
+
+.comment-page,
+.comment-insert,
+.post-comment {
+  border: solid 2px black;
+  margin: 20px;
+  border-radius: 30px;
+  max-width: 914px;
+}
+
+/* .image-comment, .post-comment {
+  display: inline-block;
+} */
+
+.post-comment {
+  height: 25em;
+  width: 25em;
+  border-radius: 10px;
+  /* left: 0; */
+}
+
+.lower-post-comment {
+  overflow: auto;
+  scroll-snap-align: end;
+  height: 24.5em;
+  width: 24.5em;
+  border-radius: 8px;
+}
+
+.lower-post-comment > p {
+  margin: 10px;
+  border-radius: 50px;
+  font-family: 'Merriweather', serif;
+  background-image: linear-gradient(#25d366, white, #25d366);
+  padding: 20px;
+  font-size: small;
+}
+
+.image-comment {
+  margin: 10px;
+  height: 25em;
+  width: 25em;
+  border-radius: 50%;
+}
+
+.comment-insert {
+  position: flex;
+  flex-direction: row;
+  height: 10em;
+  min-width: 914px;
+}
+
+.comment-submit {
+  position: absolute;
+  margin: 15px 0 0 15px;
+  background-image: url("../images/pngwing.png");
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: None;
+  box-shadow: 0 9px #999;
+  cursor: pointer;
+  outline: none;
+}
+
+.comment-submit:hover {
+  background-color: #3e8e41;
+}
+
+.comment-submit:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.comment-write {
+  /* border: solid 2px #f4b49c; */
+  border-radius: 50px;
+  /* background-color: #f4b49c; */
+  background-image: linear-gradient(#f4b49c, white, #f4b49c);
+  padding: 30px;
+  /* opacity: 30%; */
+  margin: 10px;
+  margin-top: 15px;
+  width: 80%;
+  height: 7em;
+  font-family: 'Merriweather', serif;
+  resize: None;
+  overflow: hidden;
+}
+
+.full-page-comment {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  /* margin-left: 25em; */
+  /* text-align: center; */
+}
+
+.btn, .btn-outline-danger {
+  width: 35px;
+  height: 14px;
+  font-size: xx-small;
+  padding: 0 0 0 0;
 }
