@@ -13,13 +13,13 @@ urlpatterns = [
     path('about/', views.about, name='about'),
 
     # Profile based templates and routes
-    path('my_profile/', views.my_profile, name='my_profile'), 
+    path('my_profile/<int:user_id>/', views.my_profile, name='my_profile'), 
     path('my_profile/<int:user_id>/add_photo/', views.add_photo, name='add_photo'),
     path('my_profile/<int:post_id>/', views.post_detail, name='post_detail'),
 
     # Post Create and Delete based routes views and templates
-    path('post/create/<int:user_id>/', views.PostCreate, name='post_create'),
-    path('post/create/<int:user_id>/post/', views.PostCreateComment, name='post_create_comment'),
-    path('post/create/<int:user_id>/post/<int:post_id>/delete/', views.PostCreateDelete, name='post_create_delete'),
+    path('post/create/<int:user_id>/photo/<int:photo_id>/', views.PostCreate, name='post_create'),
+    path('post/create/<int:user_id>/post/photo/<int:photo_id>/', views.PostCreateComment, name='post_create_comment'),
+    path('post/create/<int:user_id>/post/<int:post_id>/delete/photo/<int:photo_id>/', views.PostCreateDelete, name='post_create_delete'),
 
 ]

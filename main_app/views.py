@@ -44,11 +44,11 @@ def login_auth(request):
 #     Photo.objects.delete(pk=photo_id)
 #     return redirect('home.html')
 
-def PostCreateDelete(request, user_id, post_id):
+def PostCreateDelete(request, user_id, post_id, photo_id):
     print(user_id, post_id)
     user_instance = User.objects.get(pk=user_id)
     Post.objects.filter(pk=post_id, user=user_instance).delete()
-    return redirect(f'/post/create/{user_id}/')
+    return redirect(f"/post/create/{user_id}/photo/{photo_id}/")
 
 def add_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -87,11 +87,15 @@ def home(request, user_id):
     user_instance = User.objects.get(pk=user_id)
     # print(user_id)
     picture_form = PictureForm()
-    photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
-    print(photos_profile)
-    return render(request, 'home.html', {
+    try: 
+        photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
+        return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile
     })
+    except:
+        # print(photos_profile)
+        return render(request, 'home.html', {
+        'picture_form': picture_form, 'user_id': user_id})
 
 
 def signup(request):
@@ -111,8 +115,11 @@ def signup(request):
 def about(request):
     return render(request, 'about.html')
 
-def my_profile(request):
-    return render(request, 'my_profile.html')
+def my_profile(request, user_id):
+    user_instance = User.objects.get(pk=user_id)
+    photo = Photo.objects.filter(user_id=user_instance, category=1)[0]
+    photos = Photo.objects.filter(user_id=user_instance, category=2)
+    return render(request, 'my_profile.html', {'user_id': user_id, 'photo': photo, 'photos': photos})
 
 def post_detail(request, post_id):
   post = Post.objects.get(id=post_id)
@@ -127,21 +134,21 @@ def add_picture(request, user):
         new_picture.save()
     return render('home.html')
 
-def PostCreate(request, user_id):
-  photos = Photo.objects.get(pk=10)
+def PostCreate(request, user_id, photo_id):
+  photos = Photo.objects.get(pk=photo_id)
 #   user_instance = User.objects.get(pk=user_id)
   posts = Post.objects.filter(photo=photos).order_by('-id')
 #   print('normal', posts)
   return render(request, 'picture_comment.html', {'photos': photos, 
                                                   'user_id': user_id, 'posts':posts})
 @csrf_exempt  
-def PostCreateComment(request, user_id):
+def PostCreateComment(request, user_id, photo_id):
     if request.method == 'POST' and request.POST.get('comment'):
         post = request.POST.get('comment')
         user = User.objects.get(pk=user_id)
-        photos = Photo.objects.get(pk=10)
+        photos = Photo.objects.get(pk=photo_id)
         Post.objects.create(caption=post, likes=0, user=user, photo=photos)
-        return redirect(f"/post/create/{user_id}/")
+        return redirect(f"/post/create/{user_id}/photo/{photo_id}/")
     else:
-        return redirect(f"/post/create/{user_id}/")
+        return redirect(f"/post/create/{user_id}/photo/{photo_id}/")
     

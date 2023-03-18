@@ -6,9 +6,12 @@
       <div class="lower-post-comment">
         {% for post in posts %}
         <p>
-          {{ post.caption }}
-          {% if post.user.id == user_id %}
-          <a href="{% url 'post_create_delete' user_id post.id %}" class="btn btn-outline-danger local-btn">Delete</a>
+          {{ post.caption }} {% if post.user.id == user_id %}
+          <a
+            href="{% url 'post_create_delete' user_id post.id photos.id %}"
+            class="btn btn-outline-danger local-btn"
+            >Delete</a
+          >
           {% endif %}
           <br />
           <span class="name">Posted By: {{ post.user.first_name }}</span>
@@ -20,7 +23,10 @@
   </div>
 
   <div class="comment-insert">
-    <form action="{% url 'post_create_comment' user_id %}" method="post">
+    <form
+      action="{% url 'post_create_comment' user_id photos.id %}"
+      method="post"
+    >
       <textarea
         name="comment"
         class="comment-write"
@@ -33,6 +39,7 @@
     </form>
   </div>
 </div>
+<h1>{{photos.caption}}</h1>
 
 <script>
   let btn = document.querySelector(".btn");
