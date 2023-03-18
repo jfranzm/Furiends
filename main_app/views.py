@@ -19,7 +19,10 @@ S3_BASE_URL = f'https://{BUCKET}.s3.ca-central-1.amazonaws.com'
 
 @csrf_exempt
 def index(request):
+    # category = request.POST.get('category')
+    # user_instance = User.objects.get(pk=user_id)
     photos = Photo.objects.all()
+    # photos =Photo.objects.filter(category=category, user=user_instance)
     # print(photos.reverse())
     return render(request, "registration/login.html", {'photos': photos})
 
@@ -51,30 +54,43 @@ def add_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
     caption = request.POST.get('caption')
     category = request.POST.get('category')
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = 'furiends/' + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-            s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f"{S3_BASE_URL}/{key}"
-            # print(url)
-            # print(user_id)            
-            user = User.objects.get(pk=user_id)
-            # print(user)
-            # print(type(date.today()))
-            Photo.objects.create(url=url, user=user, caption=caption, likes=0, category=category)
-            # print('done')
-        except:
-            print('An error occurred uploading file to S3')
-    return render (request, 'home.html', {'user_id': user_id})
+    user_instance = User.objects.get(pk=user_id)
+
+    if request.method == 'POST': 
+        # to remove old profile pic and update it with the new one
+        if category == '1':
+            print('coming to this')
+            Photo.objects.filter(user=user_instance, category=category).delete()
+        # for photo upload
+        if photo_file:
+            s3 = boto3.client('s3')
+            key = 'furiends/' + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+            try:
+                s3.upload_fileobj(photo_file, BUCKET, key)
+                url = f"{S3_BASE_URL}/{key}"
+                # print(url)
+                # print(user_id)            
+                user = User.objects.get(pk=user_id)
+                # print(user)
+                # print(type(date.today()))
+                Photo.objects.create(url=url, user=user, caption=caption, likes=0, category=category)
+                # print('done')
+            except:
+                print('An error occurred uploading file to S3')
+        return redirect(f'/home/{user_id}/')
+    else:
+        return redirect(f'/home/{user_id}/')
 
 # Create your views here.
 def home(request, user_id):
     # user_id = request.user.id
+    user_instance = User.objects.get(pk=user_id)
     # print(user_id)
     picture_form = PictureForm()
+    photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
+    print(photos_profile)
     return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id
+        'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile
     })
 
 
