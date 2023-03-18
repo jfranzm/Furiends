@@ -4,7 +4,7 @@
     {% if user_id %}
       <div id="user-info">
         {% if photo.url %}
-          <img src="{{ photo.url }}" alt="pfp" id="pfp">
+          <img id="pfp" src="{{ photo.url }}" alt="pfp" >
         {% else %}
           <img src="https://furiends.s3.ca-central-1.amazonaws.com/furiends/blank-profile-picture-973460_1280.webp" alt="no pfp">
         {% endif %}
@@ -58,6 +58,14 @@
   <div id="feed-container">
     {% for post in posts %}
       <div id="post-container">
+        {% for picture in photo %}
+          {% if post.user == picture.user %}
+          <div id="post-user-info">
+              <img src="{{ picture.url }}" id="post-pfp">
+              <h3>{{ post.user }}</h3>
+          </div>
+          {% endif %}
+        {% endfor %}
         <img src="{{post.photo.url}}" id="post-photos" alt="">
         <div>{{ post.caption }}</div>
         <div></div>
