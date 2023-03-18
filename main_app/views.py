@@ -18,12 +18,29 @@ def add_photo(request, picture_id):
         s3 = boto3.client('s3')
         key = 'furiends/' + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
+            
             s3.upload_fileobj(photo_file, BUCKET, key)
+<<<<<<< Updated upstream
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             Photo.objects.create(url=url, picture_id=picture_id)
         except:
             print('An error occurred uploading file to S3')
     return redirect('detail', picture_id=picture_id)
+=======
+            url = f"{S3_BASE_URL}/{key}"
+            print(url)
+            print(user_id)            
+            user = User.objects.get(pk=user_id)
+            print(user)
+            # print(type(date.today()))
+            Photo.objects.create(url=url, user=user, likes = 1, caption='caption', category=2)
+            photos = Photo.object.all()
+            print('done')
+        except:
+            print('An error occurred uploading file to S3')
+    return render (request, 'home.html', {'user_id': user_id, 'photos': photos})
+
+>>>>>>> Stashed changes
 # Create your views here.
 def home(request):
     picture_form = PictureForm()
@@ -50,7 +67,8 @@ def about(request):
     return render(request, 'about.html')
 
 def my_profile(request):
-    return render(request, 'my_profile.html')
+    photos = Photo.objects.all()
+    return render(request, 'my_profile.html', {'photos': photos})
 
 def post_detail(request, post_id):
   post = Post.objects.get(id=post_id)
@@ -68,3 +86,5 @@ def add_picture(request, user):
 def PostCreate(request):
   return render(request, 'post_form.html')
   
+
+

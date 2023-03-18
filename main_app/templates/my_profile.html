@@ -1,1 +1,20 @@
-{% extends 'base.html' %} {% block content %} this is working {% endblock %}
+{% extends 'base.html' %} {% block content %}
+
+<main>
+  <aside>
+    <h2>Add a Photo</h2>
+    <div>{{photo.user}}</div>
+  </aside>
+  {% for photo in photos %}
+  <div class="post-section">
+    <div class="card-content">
+      <span class="card-title">{{ user.getuser }}</span>
+
+      <img src="{{ photo.url }}" alt="{{ photo.caption }}" />
+      <p>{{ photo.caption }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</main>
+
+{% endblock %}
