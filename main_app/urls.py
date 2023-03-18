@@ -22,4 +22,8 @@ urlpatterns = [
     path('post/create/<int:user_id>/post/', views.PostCreateComment, name='post_create_comment'),
     path('post/create/<int:user_id>/post/<int:post_id>/delete/', views.PostCreateDelete, name='post_create_delete'),
 
+    # likes add and delete
+    path('post/create/<int:user_id>/post/<int:post_id>/likes/', views.Likes_Create_Delete, name='like_create_delete'),
+    path('post/create/<int:user_id>/post/<int:post_id>/total_likes/', views.total_likes, name='total_likes'),
+
 ]

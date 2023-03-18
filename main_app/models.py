@@ -31,3 +31,11 @@ class Post(models.Model):
     def __str__(self):
         return f"Photo for post_id: {self.caption} created by user {self.user} on {self.date}"
     
+class Post_User(models.Model):
+   user_id = models.BigIntegerField()
+   post_id = models.BigIntegerField()
+
+   def __str__(self):
+      return f'Foreign key between user_id {self.user_id} and post_id {self.post_id}'
+     
+    
