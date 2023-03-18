@@ -62,12 +62,12 @@
           {% if post.user == picture.user %}
           <div id="post-user-info">
               <img src="{{ picture.url }}" id="post-pfp">
-              <h3>{{ post.user }}</h3>
+              {{ post.user }}
           </div>
           {% endif %}
         {% endfor %}
         <img src="{{post.photo.url}}" id="post-photos" alt="">
-        <div>{{ post.caption }}</div>
+        <div id="caption"><h6>{{ post.user }}</h4>: {{ post.caption }}</div>
         <div></div>
       </div>
     {% endfor %}
