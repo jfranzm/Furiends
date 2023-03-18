@@ -20,12 +20,10 @@ a {
   font-size: x-small;
   padding-left: 220px;
 }
-/* 
+
 #nav_new {
-    background-color: teal;
-} */
-#nav_new {
-  background-color: #f4b49c;
+  background: rgb(254,237,231);
+  background: linear-gradient(270deg, rgba(254,237,231,1) 10%, rgba(248,206,190,1) 69%);
 }
 
 #last_child {

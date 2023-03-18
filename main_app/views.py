@@ -87,11 +87,17 @@ def home(request, user_id):
     user_instance = User.objects.get(pk=user_id)
     # print(user_id)
     picture_form = PictureForm()
-    photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
-    print(photos_profile)
-    return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile
+    posts = Post.objects.all()
+    try: 
+        photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
+        return render(request, 'home.html', {
+        'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': posts
     })
+    except:
+        # print(photos_profile)
+        return render(request, 'home.html', {
+        'picture_form': picture_form, 'user_id': user_id, 'posts': posts})
+
 
 
 def signup(request):
