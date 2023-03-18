@@ -43,6 +43,9 @@
 </form>
 
 
-
-<img src="{{ photo.url }}" alt="">
+{% if photo.url %}
+  <img src="{{ photo.url }}" alt="">
+{% else %}
+  <h3>No Profile Picture Available</h3>
+{% endif %}
 {% endblock %}

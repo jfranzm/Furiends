@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import uuid
 import boto3
 # from django.db.models import RawSQL
-from .models import Photo,Post
+from .models import Photo,Post, Post_User
 from django.views.generic import ListView, DetailView, CreateView
 # Add the two imports below
 from django.contrib.auth import login, authenticate
@@ -12,6 +12,7 @@ from .forms import SignUpForm
 from .forms import PictureForm
 from datetime import date
 from django.utils import timezone 
+from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 
 BUCKET = 'furiends'
@@ -48,7 +49,11 @@ def PostCreateDelete(request, user_id, post_id):
     print(user_id, post_id)
     user_instance = User.objects.get(pk=user_id)
     Post.objects.filter(pk=post_id, user=user_instance).delete()
-    return redirect(f'/post/create/{user_id}/')
+    try:
+        Post_User.objects.filter(user_id=user_id, post_id=post_id).delete()
+        return redirect(f'/post/create/{user_id}/')
+    except:
+        return redirect(f'/post/create/{user_id}/')
 
 def add_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -87,11 +92,16 @@ def home(request, user_id):
     user_instance = User.objects.get(pk=user_id)
     # print(user_id)
     picture_form = PictureForm()
-    photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
-    print(photos_profile)
-    return render(request, 'home.html', {
+    try: 
+        photos_profile = Photo.objects.filter(user = user_instance, category=1)[0]
+        return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile
     })
+    except:
+        # print(photos_profile)
+        return render(request, 'home.html', {
+        'picture_form': picture_form, 'user_id': user_id})
+    
 
 
 def signup(request):
@@ -130,8 +140,24 @@ def add_picture(request, user):
 def PostCreate(request, user_id):
   photos = Photo.objects.get(pk=10)
 #   user_instance = User.objects.get(pk=user_id)
-  posts = Post.objects.filter(photo=photos).order_by('-id')
-#   print('normal', posts)
+#   posts = Post.objects.filter(photo=photos).order_by('-id')
+  query = """
+         select mp.*, au.first_name, aa.count total_likes, mapu.post_id like_by_user from main_app_post mp
+            left join (
+                select post_id, count(post_id) count from main_app_post_user group by post_id
+	            ) aa
+                on mp.id = aa.post_id
+            left join auth_user au
+	            on mp.user_id = au.id
+            left join 
+	        (select * from main_app_post_user  where user_id = %s) mapu
+	        on mp.id = mapu.post_id
+                order by id desc
+         """
+  with connection.cursor() as cursor:
+      cursor.execute(query, [user_id])
+      columns = [col[0] for col in cursor.description]
+      posts = [dict(zip(columns, row)) for row in cursor.fetchall() ]
   return render(request, 'picture_comment.html', {'photos': photos, 
                                                   'user_id': user_id, 'posts':posts})
 @csrf_exempt  
@@ -145,3 +171,14 @@ def PostCreateComment(request, user_id):
     else:
         return redirect(f"/post/create/{user_id}/")
     
+
+def Likes_Create_Delete(request, user_id, post_id):
+    # print(user_id, post_id)
+    try:
+        Post_User.objects.get(user_id=user_id, post_id=post_id).delete()
+    except:
+        Post_User.objects.create(user_id = user_id, post_id=post_id)
+    return redirect(f'/post/create/{user_id}/')
+
+def total_likes(request, user_id, post_id):
+    return redirect(f'/post/create/{user_id}/')

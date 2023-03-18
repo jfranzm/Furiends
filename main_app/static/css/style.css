@@ -12,6 +12,10 @@ a {
   font-size: xx-small;
 }
 
+.likes {
+  padding-left: 5px;
+}
+
 .date {
   /* text-transform: uppercase; */
   color: #646464;
@@ -290,7 +294,7 @@ hr {
   /* text-align: center; */
 }
 
-.btn, .btn-outline-danger {
+.local-btn {
   width: 35px;
   height: 14px;
   font-size: xx-small;
