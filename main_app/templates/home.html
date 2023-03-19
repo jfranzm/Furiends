@@ -62,11 +62,23 @@
           {% if post.user == picture.user %}
           <div id="post-user-info">
               <img src="{{ picture.url }}" id="post-pfp">
+              
               {{ post.user }}
           </div>
           {% endif %}
+          
         {% endfor %}
-        <img src="{{post.photo.url}}" id="post-photos" alt="">
+        <a href="{% url 'post_create' user_id post.id %}">
+        <img src="{{post.url}}" id="post-photos" alt="">
+        </a>
+        <div id="like-photo">
+          <a href="{% url 'photo_like' user_id post.id %}" class="btn-danger">Like</a>
+          {% for like in photo_like %}
+            {% if like.photo_id == post.id %}
+              {{ like.photo_count }}
+            {% endif %}
+          {% endfor %}
+        </div>
         <div id="caption"><h6>{{ post.user }}</h4>: {{ post.caption }}</div>
         <div></div>
       </div>
