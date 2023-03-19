@@ -3,12 +3,12 @@
   <div id="sidebar">
     {% if user_id %}
       <div id="user-info">
-        {% if photo.url %}
-          <img id="pfp" src="{{ photo.url }}" alt="pfp" >
+        {% if user_pic.url %}
+          <img id="pfp" src="{{ user_pic.url }}" alt="pfp" >
         {% else %}
           <img src="https://furiends.s3.ca-central-1.amazonaws.com/furiends/blank-profile-picture-973460_1280.webp" alt="no pfp">
         {% endif %}
-        {{ user.get_username }}
+        {{ username }}
       </div>
     <div id="upload-menu" class="upload-menu">upload
       <form

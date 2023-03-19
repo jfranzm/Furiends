@@ -22,6 +22,7 @@ S3_BASE_URL = f'https://{BUCKET}.s3.ca-central-1.amazonaws.com'
 def home(request, user_id):
     # user_id = request.user.id
     user_instance = User.objects.get(pk=user_id)
+    user_pic = None
     # print(user_id)
     picture_form = PictureForm()
     photo = Photo.objects.filter(category=2).order_by('-id')
@@ -32,15 +33,22 @@ def home(request, user_id):
       cursor.execute(query_photo_like)
       columns = [col[0] for col in cursor.description]
       photo_like = [dict(zip(columns, row)) for row in cursor.fetchall() ]
+
+    try:
+        user_pic = Photo.objects.filter(user = user_instance, category=1)[0]
+    except:
+        pass
+
     try: 
         photos_profile = Photo.objects.filter(category=1)
         return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': photo, 'photo_like': photo_like
+        'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': photo, 'photo_like': photo_like,
+        'username': user_instance.username, 'user_pic': user_pic
     })
     except:
         # print(photos_profile)
         return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id, 'posts': photo})
+        'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic})
 
 
 def PostCreate(request, user_id, photo_id):
@@ -76,6 +84,20 @@ def create_photo_like(request, user_id, photo_id):
         Photo_User.objects.create(user_id = user_id, photo_id=photo_id)
     return redirect(f"/home/{user_id}/")
 
+
+def delete_photo(request, user_id, photo_id):
+    user_instance = User.objects.get(pk=user_id)
+    photo_instance = Photo.objects.get(pk=photo_id)
+    try:       
+        for post in Post.objects.filter(photo=photo_instance):
+            Post_User.objects.filter(post_id = post.id).delete()
+
+        Photo_User.objects.filter(photo_id=photo_id).delete()
+        
+        Photo.objects.filter(pk=photo_id).delete()
+        return redirect(f"/home/{user_id}/")
+    except:
+        return redirect(f"/home/{user_id}/")
 
 @csrf_exempt
 def index(request):

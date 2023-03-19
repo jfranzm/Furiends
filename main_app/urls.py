@@ -28,5 +28,6 @@ urlpatterns = [
 
 
     #  likes for PHOTO add and delete
-    path('post/create/<int:user_id>/likes/photo/<int:photo_id>/', views.create_photo_like, name='photo_like')
+    path('post/create/<int:user_id>/likes/photo/<int:photo_id>/', views.create_photo_like, name='photo_like'),
+    path('post/create/<int:user_id>/likes/photo/<int:photo_id>/delete/', views.delete_photo, name='photo_delete')
 ]
