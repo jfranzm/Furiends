@@ -1,51 +1,78 @@
 {% extends 'base.html' %} {% block content %}
+<div id="homepage-container">
+  <div id="sidebar">
+    {% if user_id %}
+      <div id="user-info">
+        {% if photo.url %}
+          <img id="pfp" src="{{ photo.url }}" alt="pfp" >
+        {% else %}
+          <img src="https://furiends.s3.ca-central-1.amazonaws.com/furiends/blank-profile-picture-973460_1280.webp" alt="no pfp">
+        {% endif %}
+        {{ user.get_username }}
+      </div>
+    <div id="upload-menu" class="upload-menu">upload
+      <form
+    action="{% url 'add_photo' user_id %}"
+    enctype="multipart/form-data"
+    method="post"
+  >
+    {% csrf_token %}
+    <input type="file" name="photo-file" />
+    <table>
+      <tbody>
+        <tr>
+          <th><label for="id_caption">Caption:</label></th>
+          <td>
+            <input
+              type="text"
+              name="caption"
+              maxlength="250"
+              required=""
+              id="id_caption"
+            />
+          </td>
+        </tr>
 
-<h1>Home Page</h1>
+        <tr>
+          <th><label for="id_category">Category:</label></th>
+          <td>
+            <select name="category" required="" id="id_category">
+              <option value="" selected="">---------</option>
 
-<form
-  action="{% url 'add_photo' user_id %}"
-  enctype="multipart/form-data"
-  method="post"
->
-  {% csrf_token %}
-  <input type="file" name="photo-file" />
-  <table>
-    <tbody>
-      <tr>
-        <th><label for="id_caption">Caption:</label></th>
-        <td>
-          <input
-            type="text"
-            name="caption"
-            maxlength="250"
-            required=""
-            id="id_caption"
-          />
-        </td>
-      </tr>
+              <option value="1">Profile</option>
 
-      <tr>
-        <th><label for="id_category">Category:</label></th>
-        <td>
-          <select name="category" required="" id="id_category">
-            <option value="" selected="">---------</option>
+              <option value="2">Pets</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br /><br />
+    <input type="submit" class="btn" value="Upload Photo" />
+      </form>
+    </div>
+    {% else %}
+      <h3>Welcome! Please <a href="{% url 'login' %}">login</a></h3>
+    {% endif %}
+  </div>
+  <div id="feed-container">
+    {% for post in posts %}
+      <div id="post-container">
+        {% for picture in photo %}
+          {% if post.user == picture.user %}
+          <div id="post-user-info">
+              <img src="{{ picture.url }}" id="post-pfp">
+              {{ post.user }}
+          </div>
+          {% endif %}
+        {% endfor %}
+        <img src="{{post.photo.url}}" id="post-photos" alt="">
+        <div id="caption"><h6>{{ post.user }}</h4>: {{ post.caption }}</div>
+        <div></div>
+      </div>
+    {% endfor %}
+    
+  </div>
+</div>
 
-            <option value="1">Profile</option>
-
-            <option value="2">Pets</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <br /><br />
-  <input type="submit" class="btn" value="Upload Photo" />
-</form>
-
-
-{% if photo.url %}
-  <img src="{{ photo.url }}" alt="">
-{% else %}
-  <h3>No Profile Picture Available</h3>
-{% endif %}
 {% endblock %}
