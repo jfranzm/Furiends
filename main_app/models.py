@@ -20,7 +20,7 @@ class Photo(models.Model):
   def __str__(self):
     return f"Photo for post_id: {self.caption} with {self.likes} uploaded on {self.date} by user {self.user}"
   
-
+# Comment Model
 class Post(models.Model):
     caption = models.TextField(max_length=250)
     date = models.DateTimeField(default=datetime.now())
@@ -31,3 +31,18 @@ class Post(models.Model):
     def __str__(self):
         return f"Photo for post_id: {self.caption} created by user {self.user} on {self.date}"
     
+class Post_User(models.Model):
+   user_id = models.BigIntegerField()
+   post_id = models.BigIntegerField()
+
+   def __str__(self):
+      return f'Foreign key between user_id {self.user_id} and post_id {self.post_id}'
+     
+    
+class Photo_User(models.Model):
+   user_id = models.BigIntegerField()
+   photo_id = models.BigIntegerField()
+
+   def __str__(self):
+      return f'Foreign key between user_id {self.user_id} and post_id {self.photo_id}'
+     

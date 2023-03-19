@@ -30,6 +30,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -54,6 +55,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <<<<<<< HEAD
             <li class="nav-item">
               <a
                 class="nav-link active"
@@ -62,19 +64,32 @@
                 >Sign Up</a
               >
             </li>
+            ======= >>>>>>> 1cdaef6508d68a0f6fd56d0eb1f259e4d70e79de
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
             {% if user_id %}
-            
-            
+
             <li class="nav-item">
+              <<<<<<< HEAD
               <a class="nav-link" href="{% url 'my_profile' user_id %}"
                 >My Profile</a
               >
+              =======
+              <a class="nav-link" href="{% url 'home' user_id %}">Home</a>
+              >>>>>>> 1cdaef6508d68a0f6fd56d0eb1f259e4d70e79de
             </li>
             <li class="nav-item" id="last_child">
               <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'signup' %}"
+                >Sign Up</a
+              >
             </li>
             {% endif %}
           </ul>
