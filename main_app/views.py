@@ -159,7 +159,7 @@ def add_photo(request, user_id):
                 user = User.objects.get(pk=user_id)
                 # print(user)
                 # print(type(date.today()))
-                Photo.objects.create(url=url, user=user, caption=caption, likes=0, category=category)
+                Photo.objects.create(url=url, user=user_instance, caption=caption, likes=0, category=category)
                 # print('done')
             except:
                 print('An error occurred uploading file to S3')
@@ -185,8 +185,20 @@ def signup(request):
 def about(request):
     return render(request, 'about.html')
 
-def my_profile(request):
-    return render(request, 'my_profile.html')
+def my_profile(request, user_id):
+    photo = None
+    photos = None
+    user_instance = User.objects.get(pk=user_id)
+    try:
+        photo = Photo.objects.filter(user_id=user_instance, category=1)[0]
+    except:
+        pass
+    try:
+        photos = Photo.objects.filter(user_id=user_instance, category=2)
+    except:
+        pass
+    
+    return render(request, 'my_profile.html', {'user_id': user_id, 'photo': photo, 'photos': photos})
 
 def post_detail(request, post_id):
   post = Post.objects.get(id=post_id)
@@ -200,7 +212,6 @@ def add_picture(request, user):
         new_picture.picture_id = user
         new_picture.save()
     return render('home.html')
-
 
 @csrf_exempt  
 def PostCreateComment(request, user_id, photo_id):
