@@ -50,17 +50,17 @@
       </form>
     </div>
     <div class="usersPhotos">
-      {% for photo in photos %}
-      <a href="{% url 'post_create' user_id photo.id %}" class="card"
+      {% for ph in photos %}
+      <a href="{% url 'post_create' user_id ph.id %}" class="card"
         ><div class="card">
           <img
-            src="{{ photo.url}}"
-            alt="{{ photo.caption }}"
+            src="{{ ph.url}}"
+            alt="{{ ph.caption }}"
             srcset=""
             id="usersPhotos"
           />
           <div class="card-content">
-            <p>{{ photo.caption }}</p>
+            <p>{{ ph.caption }}</p>
           </div>
         </div>
       </a>
