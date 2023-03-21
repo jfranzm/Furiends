@@ -20,10 +20,8 @@ S3_BASE_URL = f'https://{BUCKET}.s3.ca-central-1.amazonaws.com'
 
 
 def home(request, user_id):
-    # user_id = request.user.id
     user_instance = User.objects.get(pk=user_id)
     user_pic = None
-    # print(user_id)
     picture_form = PictureForm()
     photo = Photo.objects.filter(category=2).order_by('-id')
     query_photo_like = """
@@ -33,7 +31,16 @@ def home(request, user_id):
       cursor.execute(query_photo_like)
       columns = [col[0] for col in cursor.description]
       photo_like = [dict(zip(columns, row)) for row in cursor.fetchall() ]
-
+    query_comment = """
+        select mp.id, mp.photo_id, mp.user_id, mp.caption, au.username from main_app_post mp
+        left join auth_user au
+        on mp.user_id = au.id
+        order by mp.photo_id, mp.id desc
+         """
+    with connection.cursor() as cursor:
+      cursor.execute(query_comment)
+      columns = [col[0] for col in cursor.description]
+      comments = [dict(zip(columns, row)) for row in cursor.fetchall() ]
     try:
         user_pic = Photo.objects.filter(user = user_instance, category=1)[0]
     except:
@@ -43,12 +50,12 @@ def home(request, user_id):
         photos_profile = Photo.objects.filter(category=1)
         return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': photo, 'photo_like': photo_like,
-        'username': user_instance.username, 'user_pic': user_pic
+        'username': user_instance.username, 'user_pic': user_pic, 'comments': comments
     })
     except:
         # print(photos_profile)
         return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic})
+        'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic, 'comments': comments})
 
 
 def PostCreate(request, user_id, photo_id):

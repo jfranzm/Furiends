@@ -189,8 +189,8 @@ hr {
 .comment-page {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
-  /* text-align: left; */
   width: auto;
   max-width: 914px;
 }
@@ -198,21 +198,18 @@ hr {
 .comment-page,
 .comment-insert,
 .post-comment {
-  border: solid 2px black;
+  border: 1px white solid;
   margin: 20px;
-  border-radius: 30px;
+  box-shadow: 0 5px 1rem 0 rgba(0,0,0,0.2);
   max-width: 914px;
 }
 
-/* .image-comment, .post-comment {
-  display: inline-block;
-} */
 
 .post-comment {
   height: 25em;
   width: 25em;
-  border-radius: 10px;
-  /* left: 0; */
+
+
 }
 
 .lower-post-comment {
@@ -234,9 +231,11 @@ hr {
 
 .image-comment {
   margin: 10px;
+  margin-top: 20px;
   height: 25em;
   width: 25em;
-  border-radius: 50%;
+  border: 1px rgba(255, 255, 255, 0.035) solid;
+  box-shadow: 0 5px 1rem 0 rgba(0,0,0,0.2);
 }
 
 .comment-insert {
@@ -270,19 +269,15 @@ hr {
   transform: translateY(4px);
 }
 .comment-write {
-  /* border: solid 2px #f4b49c; */
-  border-radius: 50px;
-  /* background-color: #f4b49c; */
-  background-image: linear-gradient(#f4b49c, white, #f4b49c);
-  padding: 30px;
-  /* opacity: 30%; */
+  padding: 10px;
   margin: 10px;
   margin-top: 15px;
   width: 80%;
   height: 7em;
-  font-family: "Merriweather", serif;
   resize: None;
   overflow: hidden;
+  border: 1px white solid;
+  box-shadow: 0 5px 1rem 0 rgba(0,0,0,0.2);
 }
 
 .full-page-comment {
