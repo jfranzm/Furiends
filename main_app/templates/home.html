@@ -12,7 +12,7 @@
       </div>
     {% endif %}
   </div>
-  <div id="feed-container">
+  <div id="feed-container" class="feed-container">
     {% for post in posts %}
       <div id="post-container">
         {% for picture in photo %}
@@ -25,15 +25,15 @@
           {% endif %}
         {% endfor %}
         <a href="{% url 'post_create' user_id post.id %}">
-        <img src="{{post.url}}" id="post-photos" alt="oops">
+        <img src="{{post.url}}" id="post-photos" alt="">
         </a>
         <div id="like-photo">
-          <a href="{% url 'photo_like' user_id post.id %}" class="btn-danger">
-            Like
+          <a href="{% url 'photo_like' user_id post.id %}">
+            <div id="like"></div>
           </a>
           {% for like in photo_like %}
             {% if like.photo_id == post.id %}
-              {{ like.photo_count }}
+              <div id="count">{{ like.photo_count }}</div>
             {% endif %}
           {% endfor %}
         </div>
@@ -41,7 +41,7 @@
         <div id="comment-section">
           {% for comment in comments %}
             {% if post.id == comment.photo_id %}
-              <div id="comment">{{comment.username}}: {{ comment.caption }}</div>
+              <div id="comment"><span id="comment-username">{{comment.username}}:</span> {{ comment.caption }}</div>
             {% endif %}
           {% endfor %}
         </div>
@@ -51,5 +51,22 @@
   </div>
 </div>
 
+<script>
+  let like = document.getElementById('like');
+  like.onclick = function () {
+    like.classList.toggle("liked");
+  };
+
+  let sidebar1 = document.querySelector(".feed-container");
+  
+  let toppy1 = localStorage.getItem("sidebar-scroll");
+  if (toppy1 !== null) {
+    sidebar1.scrollTop = parseInt(toppy1, 10);
+  }
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem("sidebar-scroll", sidebar1.scrollTop);
+  });
+</script>
 {% endblock %}
 
