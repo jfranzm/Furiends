@@ -40,24 +40,25 @@
         {% endfor %}
       </div>
     </div>
+    <div class="comment-insert">
+      <form
+        action="{% url 'post_create_comment' user_id photo_id %}"
+        method="post"
+      >
+        <textarea
+          name="comment"
+          class="comment-write"
+          cols="30"
+          rows="10"
+          maxlength="100"
+        ></textarea>
+  
+        <button class="comment-submit"></button>
+      </form>
+    </div>
   </div>
 
-  <div class="comment-insert">
-    <form
-      action="{% url 'post_create_comment' user_id photo_id %}"
-      method="post"
-    >
-      <textarea
-        name="comment"
-        class="comment-write"
-        cols="30"
-        rows="10"
-        maxlength="100"
-      ></textarea>
-
-      <button class="comment-submit"></button>
-    </form>
-  </div>
+  
 </div>
 <h1>{{photos.caption}}</h1>
 

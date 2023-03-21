@@ -39,9 +39,15 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid" id="nav_new">
+        {% if user_id %}
+        <a class="navbar-brand" href="{% url 'home' user_id %}"
+          ><img src="{% static 'images/Furiends_Logo.png' %}" alt="Furiends"
+        /></a>
+        {% else %}
         <a class="navbar-brand" href="/"
           ><img src="{% static 'images/Furiends_Logo.png' %}" alt="Furiends"
         /></a>
+        {% endif %}
         <button
           class="navbar-toggler"
           type="button"
