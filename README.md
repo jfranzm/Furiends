@@ -45,7 +45,7 @@ List of Technologies used
 
 ## Getting Started
 
-<a href="https://furiends.herokuapp.com">Furiends By Muhammad Abuzar Butt, Jeffrey Martinez & Lemmy Onukwugha</a>
+<a href="https://furiends.herokuapp.com">Furiends </a>By Muhammad Abuzar Butt, Jeffrey Martinez & Lemmy Onukwugha
 
 
 ## AAU
