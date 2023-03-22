@@ -50,24 +50,38 @@ def home(request, user_id):
         return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic})
 
+def my_profile(request, user_id):
+    photo = None
+    photos = None
+    user_instance = User.objects.get(pk=user_id)
+    try:
+        photo = Photo.objects.filter(user_id=user_instance, category=1)[0]
+    except:
+        pass
+    try:
+        photos = Photo.objects.filter(user_id=user_instance, category=2)
+    except:
+        pass
+    return render(request, 'my_profile.html', {'user_id': user_id, 'photo': photo, 'photos': photos})
+
 
 def PostCreate(request, user_id, photo_id):
   photos = Photo.objects.get(pk=photo_id)
 #   user_instance = User.objects.get(pk=user_id)
 #   posts = Post.objects.filter(photo=photos).order_by('-id')
   query = """
-         select mp.*, au.first_name, aa.count total_likes, mapu.post_id like_by_user from main_app_post mp
-            left join (
-                select post_id, count(post_id) count from main_app_post_user group by post_id
+        select mp.*, au.first_name, aa.count total_likes, mapu.post_id like_by_user from main_app_post mp
+        left join (
+            select post_id, count(post_id) count from main_app_post_user group by post_id
 	            ) aa
-                on mp.id = aa.post_id
-            left join auth_user au
-	            on mp.user_id = au.id
-            left join 
+            on mp.id = aa.post_id
+        left join auth_user au
+	        on mp.user_id = au.id
+        left join 
 	        (select * from main_app_post_user  where user_id = %s) mapu
 	        on mp.id = mapu.post_id
-            where mp.photo_id = %s
-                order by id desc
+        where mp.photo_id = %s
+            order by id desc
          """
   with connection.cursor() as cursor:
       cursor.execute(query, [user_id, photo_id])
@@ -159,7 +173,7 @@ def add_photo(request, user_id):
                 user = User.objects.get(pk=user_id)
                 # print(user)
                 # print(type(date.today()))
-                Photo.objects.create(url=url, user=user, caption=caption, likes=0, category=category)
+                Photo.objects.create(url=url, user=user_instance, caption=caption, likes=0, category=category)
                 # print('done')
             except:
                 print('An error occurred uploading file to S3')
