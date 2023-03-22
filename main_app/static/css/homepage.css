@@ -135,7 +135,7 @@
     top: 0;
     width: 12.5px;
     height: 20px;
-    background-color: #f91919;
+    background-color: #f9191927;
     border: 1px solid rgba(0, 0, 0, 0.092);
     border-radius: 50px 50px 0 0;
     transform: rotate(-45deg);
@@ -147,9 +147,28 @@
     transform-origin: 100% 100%;
  }
 
- .liked:before,
- .liked:after {
-    background-color: #f91919;
-    border: none;
+ #liked {
+    position: relative;
+    width: 5px;
+    height: 4.1px;
+    margin: 0 auto;
  }
-
+ #liked:before,
+ #liked:after {
+    position: absolute;
+    content:'';
+    left: 12.5px;
+    top: 0;
+    width: 12.5px;
+    height: 20px;
+    background-color: #f91919;
+    border: 1px solid rgba(0, 0, 0, 0.092);
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+ }
+ #liked:after {
+    left:0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+ }

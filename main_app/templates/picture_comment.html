@@ -1,8 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 <div class="full-page-comment">
   <div class="comment-page">
+    <a href="{% url 'photo_delete' user_id photos.id %}" id="delete-post">Delete</a>
+
     <img class="image-comment" src="{{ photos.url }}" alt="" />
-    <!-- <a href="{% url 'photo_delete' user_id photos.id %}">Delete</a> -->
     <div class="post-comment">
       <div class="lower-post-comment">
         {% for post in posts %}
