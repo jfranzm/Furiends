@@ -16,11 +16,15 @@
     {% for post in posts %}
       <div id="post-container">
         {% for picture in photo %}
-          {% if post.user == picture.user %}
-          <div id="post-user-info">
+          <div>        Post:  {{post.username}}
+          </div>
+          <div>        Picture:   {{picture.user}}
+          </div>
+          {% if picture.user == post.username %}
+            <div id="post-user-info">
               <img src="{{ picture.url }}" id="post-pfp">
               
-              {{ post.user }}
+              {{ post.username }}
           </div>
           {% endif %}
         {% endfor %}
@@ -28,22 +32,22 @@
         <img src="{{post.url}}" id="post-photos" alt="">
         </a>
         <div id="like-photo">
-          {% for like in like_comment %}
-            {% if user_id == like.user_id and post.id == like.photo_id %}
-
-          <a href="{% url 'photo_like' user_id post.id %}">
-            <div id="like">Liked</div>
-          </a>
-        
-            {% endif %}
-          {% endfor %}
+              {% if post.liked %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="liked">Liked</div>
+              </a>
+              {% else %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="like">Like</div>
+              </a>
+              {% endif %}
           {% for like in photo_like %}
             {% if like.photo_id == post.id %}
               <div id="count">{{ like.photo_count }}</div>
             {% endif %}
           {% endfor %}
         </div>
-        <div id="caption"><h6>{{ post.user }}</h4>: {{ post.caption }}</div>
+        <div id="caption"><h6>{{ post.username }}</h4>: {{ post.caption }}</div>
         <div id="comment-section">
           {% for comment in comments %}
             {% if post.id == comment.photo_id %}

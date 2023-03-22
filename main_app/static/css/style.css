@@ -210,6 +210,13 @@ hr {
 
 
 }
+#delete-post {
+  position: relative;
+  right: 0;
+  text-decoration: none;
+  color: red;
+  font-size: smaller;
+}
 #post-caption {
   font-family: "Merriweather", serif;
   display: flex;

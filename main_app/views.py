@@ -23,7 +23,6 @@ def home(request, user_id):
     user_instance = User.objects.get(pk=user_id)
     user_pic = None
     picture_form = PictureForm()
-    photo = Photo.objects.filter(category=2).order_by('-id')
     query_photo_like = """
         select photo_id, count(photo_id) photo_count from main_app_photo_user group by photo_id
     """
@@ -41,6 +40,20 @@ def home(request, user_id):
       cursor.execute(query_comment)
       columns = [col[0] for col in cursor.description]
       comments = [dict(zip(columns, row)) for row in cursor.fetchall() ]
+    query_liked = """
+        select ap.*, pu.user_id liked, au.username  from main_app_photo ap
+        left join 
+        (select * from main_app_photo_user where user_id = %s) pu
+        on ap.id = pu.photo_id
+        left join auth_user au
+        on ap.user_id = au.id
+        order by ap.id desc
+    """
+    with connection.cursor() as cursor:
+      cursor.execute(query_liked, [user_id])
+      columns = [col[0] for col in cursor.description]
+      photo = [dict(zip(columns, row)) for row in cursor.fetchall() ]
+    
     try:
         user_pic = Photo.objects.filter(user = user_instance, category=1)[0]
     except:
