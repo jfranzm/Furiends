@@ -20,12 +20,9 @@ S3_BASE_URL = f'https://{BUCKET}.s3.ca-central-1.amazonaws.com'
 
 
 def home(request, user_id):
-    # user_id = request.user.id
     user_instance = User.objects.get(pk=user_id)
     user_pic = None
-    # print(user_id)
     picture_form = PictureForm()
-    photo = Photo.objects.filter(category=2).order_by('-id')
     query_photo_like = """
         select photo_id, count(photo_id) photo_count from main_app_photo_user group by photo_id
     """
@@ -33,22 +30,45 @@ def home(request, user_id):
       cursor.execute(query_photo_like)
       columns = [col[0] for col in cursor.description]
       photo_like = [dict(zip(columns, row)) for row in cursor.fetchall() ]
-
+    query_comment = """
+        select mp.id, mp.photo_id, mp.user_id, mp.caption, au.username from main_app_post mp
+        left join auth_user au
+        on mp.user_id = au.id
+        order by mp.photo_id, mp.id desc
+         """
+    with connection.cursor() as cursor:
+      cursor.execute(query_comment)
+      columns = [col[0] for col in cursor.description]
+      comments = [dict(zip(columns, row)) for row in cursor.fetchall() ]
+    query_liked = """
+        select ap.*, pu.user_id liked, au.username  from main_app_photo ap
+        left join 
+        (select * from main_app_photo_user where user_id = %s) pu
+        on ap.id = pu.photo_id
+        left join auth_user au
+        on ap.user_id = au.id
+        order by ap.id desc
+    """
+    with connection.cursor() as cursor:
+      cursor.execute(query_liked, [user_id])
+      columns = [col[0] for col in cursor.description]
+      photo = [dict(zip(columns, row)) for row in cursor.fetchall() ]
+    
     try:
         user_pic = Photo.objects.filter(user = user_instance, category=1)[0]
     except:
         pass
-
+    like_comment = Photo_User.objects.all()
     try: 
         photos_profile = Photo.objects.filter(category=1)
         return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': photo, 'photo_like': photo_like,
-        'username': user_instance.username, 'user_pic': user_pic
+        'username': user_instance.username, 'user_pic': user_pic, 'comments': comments, 'like_comment': like_comment
     })
     except:
         # print(photos_profile)
         return render(request, 'home.html', {
-        'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic})
+        'picture_form': picture_form, 'user_id': user_id, 'posts': photo, 'username': user_instance.username, 'user_pic': user_pic, 'comments': comments})
 
 def my_profile(request, user_id):
     photo = None
@@ -67,6 +87,7 @@ def my_profile(request, user_id):
 
 def PostCreate(request, user_id, photo_id):
   photos = Photo.objects.get(pk=photo_id)
+  username = User.objects.get(pk=user_id)
 #   user_instance = User.objects.get(pk=user_id)
 #   posts = Post.objects.filter(photo=photos).order_by('-id')
   query = """
@@ -88,7 +109,7 @@ def PostCreate(request, user_id, photo_id):
       columns = [col[0] for col in cursor.description]
       posts = [dict(zip(columns, row)) for row in cursor.fetchall() ]
   return render(request, 'picture_comment.html', {'photos': photos, 
-                                                  'user_id': user_id, 'posts':posts, 'photo_id': photo_id})
+                                                  'user_id': user_id, 'posts':posts, 'photo_id': photo_id, 'username': username})
 
 
 def create_photo_like(request, user_id, photo_id):
@@ -199,8 +220,20 @@ def signup(request):
 def about(request):
     return render(request, 'about.html')
 
-def my_profile(request):
-    return render(request, 'my_profile.html')
+def my_profile(request, user_id):
+    photo = None
+    photos = None
+    user_instance = User.objects.get(pk=user_id)
+    try:
+        photo = Photo.objects.filter(user_id=user_instance, category=1)[0]
+    except:
+        pass
+    try:
+        photos = Photo.objects.filter(user_id=user_instance, category=2)
+    except:
+        pass
+    
+    return render(request, 'my_profile.html', {'user_id': user_id, 'photo': photo, 'photos': photos})
 
 def post_detail(request, post_id):
   post = Post.objects.get(id=post_id)
@@ -214,7 +247,6 @@ def add_picture(request, user):
         new_picture.picture_id = user
         new_picture.save()
     return render('home.html')
-
 
 @csrf_exempt  
 def PostCreateComment(request, user_id, photo_id):

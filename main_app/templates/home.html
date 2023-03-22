@@ -10,81 +10,73 @@
         {% endif %}
         {{ username }}
       </div>
-    <div id="upload-menu" class="upload-menu">upload
-      <form
-    action="{% url 'add_photo' user_id %}"
-    enctype="multipart/form-data"
-    method="post"
-  >
-    {% csrf_token %}
-    <input type="file" name="photo-file" />
-    <table>
-      <tbody>
-        <tr>
-          <th><label for="id_caption">Caption:</label></th>
-          <td>
-            <input
-              type="text"
-              name="caption"
-              maxlength="250"
-              required=""
-              id="id_caption"
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <th><label for="id_category">Category:</label></th>
-          <td>
-            <select name="category" required="" id="id_category">
-              <option value="" selected="">---------</option>
-
-              <option value="1">Profile</option>
-
-              <option value="2">Pets</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br /><br />
-    <input type="submit" class="btn" value="Upload Photo" />
-      </form>
-    </div>
-    {% else %}
-      <h3>Welcome! Please <a href="{% url 'login' %}">login</a></h3>
     {% endif %}
   </div>
-  <div id="feed-container">
+  <div id="feed-container" class="feed-container">
     {% for post in posts %}
       <div id="post-container">
         {% for picture in photo %}
-          {% if post.user == picture.user %}
-          <div id="post-user-info">
+          <div>        Post:  {{post.username}}
+          </div>
+          <div>        Picture:   {{picture.user}}
+          </div>
+          {% if picture.user == post.username %}
+            <div id="post-user-info">
               <img src="{{ picture.url }}" id="post-pfp">
               
-              {{ post.user }}
+              {{ post.username }}
           </div>
           {% endif %}
-          
         {% endfor %}
         <a href="{% url 'post_create' user_id post.id %}">
         <img src="{{post.url}}" id="post-photos" alt="">
         </a>
         <div id="like-photo">
-          <a href="{% url 'photo_like' user_id post.id %}" class="btn-danger">Like</a>
+              {% if post.liked %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="liked">Liked</div>
+              </a>
+              {% else %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="like">Like</div>
+              </a>
+              {% endif %}
           {% for like in photo_like %}
             {% if like.photo_id == post.id %}
-              {{ like.photo_count }}
+              <div id="count">{{ like.photo_count }}</div>
             {% endif %}
           {% endfor %}
         </div>
-        <div id="caption"><h6>{{ post.user }}</h4>: {{ post.caption }}</div>
-        <div></div>
+        <div id="caption"><h6>{{ post.username }}</h4>: {{ post.caption }}</div>
+        <div id="comment-section">
+          {% for comment in comments %}
+            {% if post.id == comment.photo_id %}
+              <div id="comment"><span id="comment-username">{{comment.username}}:</span> {{ comment.caption }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     {% endfor %}
     
   </div>
 </div>
 
+<script>
+  let like = document.getElementById('like');
+  like.onclick = function () {
+    like.classList.toggle("liked");
+  };
+
+  let sidebar1 = document.querySelector(".feed-container");
+  
+  let toppy1 = localStorage.getItem("sidebar-scroll");
+  if (toppy1 !== null) {
+    sidebar1.scrollTop = parseInt(toppy1, 10);
+  }
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem("sidebar-scroll", sidebar1.scrollTop);
+  });
+</script>
 {% endblock %}
+

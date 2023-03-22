@@ -1,54 +1,70 @@
 {% extends 'base.html' %} {% block content %}
 <div class="full-page-comment">
   <div class="comment-page">
+    <a href="{% url 'photo_delete' user_id photos.id %}" id="delete-post">Delete</a>
+
     <img class="image-comment" src="{{ photos.url }}" alt="" />
-    <a href="{% url 'photo_delete' user_id photos.id %}">Delete</a>
     <div class="post-comment">
       <div class="lower-post-comment">
         {% for post in posts %}
         <p>
-          {{ post.caption }}
-          {% if post.user_id == user_id %}
-          <a href="{% url 'post_create_delete' user_id post.id photo_id %}" class="btn btn-outline-danger local-btn">Delete</a>
+          {{ post.caption }} {% if post.user_id == user_id %}
+          <a
+            href="{% url 'post_create_delete' user_id post.id photo_id %}"
+            class="btn btn-outline-danger local-btn"
+            >Delete</a
+          >
 
           {% if post.like_by_user %}
-              <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
-            {% else %}
-              <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
-          {% endif %}
-
+          <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
           {% else %}
-
-            {% if post.like_by_user %}
-              <a href="{% url 'like_create_delete' user_id post.id photo_id %}" class="btn btn-danger local-btn">Liked</a> <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
-            {% else %}
-              <a href="{% url 'like_create_delete' user_id post.id photo_id %}" class="btn btn-outline-danger local-btn">Like</a> <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
-            {% endif %}
-
-          {% endif %}
+          <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
+          {% endif %} {% else %} {% if post.like_by_user %}
+          <a
+            href="{% url 'like_create_delete' user_id post.id photo_id %}"
+            class="btn btn-danger local-btn"
+            >Liked</a
+          >
+          <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
+          {% else %}
+          <a
+            href="{% url 'like_create_delete' user_id post.id photo_id %}"
+            class="btn btn-outline-danger local-btn"
+            >Like</a
+          >
+          <span class="name likes"> Total Likes: {{ post.total_likes }}</span>
+          {% endif %} {% endif %}
           <br />
-          <span class="name">Posted By: {{ post.first_name }}</span> <br>    
+          <span class="name">Posted By: {{ post.first_name }}</span> <br />
           <span class="date">on: {{ post.date|date:'Y-m-d' }}</span>
         </p>
         {% endfor %}
       </div>
+      
+    </div>
+    <div id="post-caption"><h5>{{username.username}} :</h5><h5>{{photos.caption}}</h5></div>
+    <div class="comment-insert">
+        <form
+          id="comment-textarea"
+          action="{% url 'post_create_comment' user_id photo_id %}"
+          method="post"
+        >
+          <textarea
+            name="comment"
+            class="comment-write"
+            cols="30"
+            rows="10"
+            maxlength="100"
+          ></textarea>
+    
+          <button class="comment-submit">Submit</button>
+        </form>
     </div>
   </div>
 
-  <div class="comment-insert">
-    <form action="{% url 'post_create_comment' user_id photo_id %}" method="post">
-      <textarea
-        name="comment"
-        class="comment-write"
-        cols="30"
-        rows="10"
-        maxlength="100"
-      ></textarea>
-
-      <button class="comment-submit"></button>
-    </form>
-  </div>
+  
 </div>
+
 
 <script>
   let btn = document.querySelector(".btn");
