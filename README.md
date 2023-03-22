@@ -24,10 +24,17 @@ List of Technologies used
 5. Google API
 6. Bootstrap
 7. Jquery
+8. Postgresql
 
 ## Getting Started
 
-<a href="">Furiends By Muhammad Abuzar Butt, Jeffrey Martinez & Lemmy Onukwugha</a>
+<a href="https://furiends.herokuapp.com">Furiends By Muhammad Abuzar Butt, Jeffrey Martinez & Lemmy Onukwugha</a>
+
+## Screenshots
+
+### My Profile Page
+
+![My Profile page](https://imgur.com/gallery/KmAyhXB)
 
 ## AAU
 
@@ -39,6 +46,8 @@ List of Technologies used
 
 ---
 1. Adding a feature for search and filtering post
+2. Adding a feature to recieve notifications for likes and comments made on a user's posts
+3. Adding a feature that allows user's the ability to freely customize certain aspects of the app (e.g., color themes)
 
 
 
