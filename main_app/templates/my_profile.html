@@ -2,7 +2,7 @@
 
 <main>
   <div class="my_profile">
-    <div class="card-container">
+    <div class="card-container px-2 pt-5">
       <img src="{{ photo.url }}" alt="profile photo" class="round" />
       <br />
       <h2 class="userName">{{photo.user}}</h2>
@@ -14,9 +14,37 @@
         method="post"
       >
         {% csrf_token %}
+        <div class="mb-3">
+          <label for="" class="form-label"></label>
+          <input type="file" name="photo-file" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="id_caption" class="form-label">Caption:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="caption"
+            maxlength="250"
+            required=""
+            id="id_caption"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="id_category" class="form-label">Category:</label>
+          <select
+            name="category"
+            required=""
+            id="id_category"
+            class="form-select"
+          >
+            <option value="" selected="">---------</option>
 
-        <input type="file" name="photo-file" />
-        <table class="inputs">
+            <option value="1">Profile</option>
+
+            <option value="2">Pets</option>
+          </select>
+        </div>
+        <!-- <table class="inputs">
           <tbody>
             <tr>
               <th><label for="id_caption">Caption:</label></th>
@@ -44,7 +72,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <br /><br />
         <input type="submit" class="buttons" value="Add Photo" />
       </form>
