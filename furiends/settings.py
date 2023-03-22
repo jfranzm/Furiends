@@ -85,8 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'furiends',   
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'], # <-- try here
+        # <-- try here
         # 'HOST': '127.0.0.1',
         # 'PORT': '5432',
     }
