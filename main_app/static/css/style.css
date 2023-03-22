@@ -67,7 +67,7 @@ img {
 }
 
 .inner-container > form > p {
-  border-bottom: solid 1px #120a19;
+  /* border-bottom: solid 1px #120a19; */
   border-radius: 10px;
   margin: 5px;
 }
@@ -196,7 +196,6 @@ hr {
 }
 
 .comment-page,
-.comment-insert,
 .post-comment {
   border: 1px white solid;
   margin: 20px;
@@ -211,7 +210,13 @@ hr {
 
 
 }
-
+#post-caption {
+  font-family: "Merriweather", serif;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+}
 .lower-post-comment {
   overflow: auto;
   scroll-snap-align: end;
@@ -222,11 +227,10 @@ hr {
 
 .lower-post-comment > p {
   margin: 10px;
-  border-radius: 50px;
   font-family: "Merriweather", serif;
-  background-image: linear-gradient(#25d366, white, #25d366);
   padding: 20px;
   font-size: small;
+  border-bottom: 1px solid rgba(38, 38, 38, 0.3);
 }
 
 .image-comment {
@@ -247,25 +251,23 @@ hr {
 
 .comment-submit {
   position: absolute;
-  margin: 15px 0 0 15px;
-  background-image: url("../images/pngwing.png");
-  background-size: cover;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: None;
-  box-shadow: 0 9px #999;
-  cursor: pointer;
-  outline: none;
+  border: 1px solid black;
+  border-radius: 3px;
+  color: #231e39;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  padding: 10px 25px;
+  background-color: transparent;
+  margin-top: 50px;
+  margin-left: 25px;
 }
 
 .comment-submit:hover {
-  background-color: #3e8e41;
+  background-color: #120a19;
+  color: white;
 }
 
 .comment-submit:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
 .comment-write {

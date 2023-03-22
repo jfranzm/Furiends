@@ -2,7 +2,7 @@
 <div class="full-page-comment">
   <div class="comment-page">
     <img class="image-comment" src="{{ photos.url }}" alt="" />
-    <a href="{% url 'photo_delete' user_id photos.id %}">Delete</a>
+    <!-- <a href="{% url 'photo_delete' user_id photos.id %}">Delete</a> -->
     <div class="post-comment">
       <div class="lower-post-comment">
         {% for post in posts %}
@@ -39,28 +39,31 @@
         </p>
         {% endfor %}
       </div>
+      
     </div>
+    <div id="post-caption"><h5>{{username.username}} :</h5><h5>{{photos.caption}}</h5></div>
     <div class="comment-insert">
-      <form
-        action="{% url 'post_create_comment' user_id photo_id %}"
-        method="post"
-      >
-        <textarea
-          name="comment"
-          class="comment-write"
-          cols="30"
-          rows="10"
-          maxlength="100"
-        ></textarea>
-  
-        <button class="comment-submit"></button>
-      </form>
+        <form
+          id="comment-textarea"
+          action="{% url 'post_create_comment' user_id photo_id %}"
+          method="post"
+        >
+          <textarea
+            name="comment"
+            class="comment-write"
+            cols="30"
+            rows="10"
+            maxlength="100"
+          ></textarea>
+    
+          <button class="comment-submit">Submit</button>
+        </form>
     </div>
   </div>
 
   
 </div>
-<h1>{{photos.caption}}</h1>
+
 
 <script>
   let btn = document.querySelector(".btn");

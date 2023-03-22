@@ -45,12 +45,12 @@ def home(request, user_id):
         user_pic = Photo.objects.filter(user = user_instance, category=1)[0]
     except:
         pass
-
+    like_comment = Photo_User.objects.all()
     try: 
         photos_profile = Photo.objects.filter(category=1)
         return render(request, 'home.html', {
         'picture_form': picture_form, 'user_id': user_id, 'photo': photos_profile, 'posts': photo, 'photo_like': photo_like,
-        'username': user_instance.username, 'user_pic': user_pic, 'comments': comments
+        'username': user_instance.username, 'user_pic': user_pic, 'comments': comments, 'like_comment': like_comment
     })
     except:
         # print(photos_profile)
@@ -60,6 +60,7 @@ def home(request, user_id):
 
 def PostCreate(request, user_id, photo_id):
   photos = Photo.objects.get(pk=photo_id)
+  username = User.objects.get(pk=user_id)
 #   user_instance = User.objects.get(pk=user_id)
 #   posts = Post.objects.filter(photo=photos).order_by('-id')
   query = """
@@ -81,7 +82,7 @@ def PostCreate(request, user_id, photo_id):
       columns = [col[0] for col in cursor.description]
       posts = [dict(zip(columns, row)) for row in cursor.fetchall() ]
   return render(request, 'picture_comment.html', {'photos': photos, 
-                                                  'user_id': user_id, 'posts':posts, 'photo_id': photo_id})
+                                                  'user_id': user_id, 'posts':posts, 'photo_id': photo_id, 'username': username})
 
 
 def create_photo_like(request, user_id, photo_id):
