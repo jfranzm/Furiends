@@ -1,8 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 <div class="full-page-comment">
   <div class="comment-page">
+    {% if username.username == photos.user.username %}
     <a href="{% url 'photo_delete' user_id photos.id %}" id="delete-post">Delete</a>
-
+    {% endif %}
     <img class="image-comment" src="{{ photos.url }}" alt="" />
     <div class="post-comment">
       <div class="lower-post-comment">
@@ -42,7 +43,7 @@
       </div>
       
     </div>
-    <div id="post-caption"><h5>{{username.username}} :</h5><h5>{{photos.caption}}</h5></div>
+    <div id="post-caption"><h5>{{photos.user.username}} :</h5><h5>{{photos.caption}}</h5></div>
     <div class="comment-insert">
         <form
           id="comment-textarea"
