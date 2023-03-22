@@ -47,6 +47,7 @@ def home(request, user_id):
         on ap.id = pu.photo_id
         left join auth_user au
         on ap.user_id = au.id
+        where ap.category = 2
         order by ap.id desc
     """
     with connection.cursor() as cursor:
