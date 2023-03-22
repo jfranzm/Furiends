@@ -41,7 +41,7 @@ def home(request, user_id):
       columns = [col[0] for col in cursor.description]
       comments = [dict(zip(columns, row)) for row in cursor.fetchall() ]
     query_liked = """
-        select ap.*, pu.user_id liked, au.username  from main_app_photo ap
+        select ap.*, pu.user_id liked, au.username username  from main_app_photo ap
         left join 
         (select * from main_app_photo_user where user_id = %s) pu
         on ap.id = pu.photo_id
