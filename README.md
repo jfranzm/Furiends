@@ -45,9 +45,17 @@ List of Technologies used
 ## Next Steps
 
 ---
+
 1. Adding a feature for search and filtering post
 2. Adding a feature to recieve notifications for likes and comments made on a user's posts
 3. Adding a feature that allows user's the ability to freely customize certain aspects of the app (e.g., color themes)
+4. Creating album of pictures for likes and posts
+5. Built in emojis
+6. Sending join invitation to a friend
+7. Google Auth authentication
+8. Uploading videos for comments and likes
+9. Searching friend on the website and getting them private access to the profile
+10. Making the profile more private and only giving access to specific individuals
 
 
 
