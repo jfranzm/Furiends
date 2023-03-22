@@ -10,6 +10,13 @@ A social platform for pet owners to share photos of their pets. Users are able t
 
 
 # <a href="https://trello.com/b/JjOI2rRp"> Trello<a>
+  
+<img width="1466" alt="Screenshot 2023-03-22 at 6 20 10 PM" src="https://user-images.githubusercontent.com/83681358/227055075-4ce2b4f5-4468-4a57-a05c-5e720c5acc06.png">
+
+<img width="1464" alt="Screenshot 2023-03-22 at 6 25 31 PM" src="https://user-images.githubusercontent.com/83681358/227055082-6b933c11-521a-4968-8bbc-688c28a2815f.png">
+  
+  
+<img width="1460" alt="Screenshot 2023-03-22 at 6 25 50 PM" src="https://user-images.githubusercontent.com/83681358/227055094-f394aec9-02a8-499e-b38a-dd17b1c839e5.png">
 
 ## Technologies
 
