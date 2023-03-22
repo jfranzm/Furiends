@@ -137,3 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import django_heroku
 django_heroku.settings(locals())
+WSGI_APPLICATION = 'Furiends.wsgi.application'
+
