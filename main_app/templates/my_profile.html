@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block content %}
+
+<main>
+  <div class="my_profile">
+    <div class="card-container px-2 pt-5">
+      <img src="{{ photo.url }}" alt="profile photo" class="round" />
+      <br />
+      <h2 class="userName">{{photo.user}}</h2>
+      <br />
+
+      <form
+        action="{% url 'add_photo' user_id %}"
+        enctype="multipart/form-data"
+        method="post"
+      >
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="" class="form-label"></label>
+          <input type="file" name="photo-file" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="id_caption" class="form-label">Caption:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="caption"
+            maxlength="250"
+            required=""
+            id="id_caption"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="id_category" class="form-label">Category:</label>
+          <select
+            name="category"
+            required=""
+            id="id_category"
+            class="form-select"
+          >
+            <option value="" selected="">---------</option>
+
+            <option value="1">Profile</option>
+
+            <option value="2">Pets</option>
+          </select>
+        </div>
+        <!-- <table class="inputs">
+          <tbody>
+            <tr>
+              <th><label for="id_caption">Caption:</label></th>
+              <td>
+                <input
+                  type="text"
+                  name="caption"
+                  maxlength="250"
+                  required=""
+                  id="id_caption"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="id_category">Category:</label></th>
+              <td>
+                <select name="category" required="" id="id_category">
+                  <option value="" selected="">---------</option>
+
+                  <option value="1">Profile</option>
+
+                  <option value="2">Pets</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+        <br /><br />
+        <input type="submit" class="buttons" value="Add Photo" />
+      </form>
+    </div>
+    <div class="usersPhotos">
+      {% for ph in photos %}
+      <a href="{% url 'post_create' user_id ph.id %}" class="card"
+        ><div class="card">
+          <img
+            src="{{ ph.url}}"
+            alt="{{ ph.caption }}"
+            srcset=""
+            id="usersPhotos"
+          />
+          <div class="card-content">
+            <p>{{ ph.caption }}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+
+{% endblock %}

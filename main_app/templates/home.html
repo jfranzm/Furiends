@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% block content %}
+<div id="homepage-container">
+  <div id="sidebar">
+    {% if user_id %}
+      <div id="user-info">
+        {% if user_pic.url %}
+          <img id="pfp" src="{{ user_pic.url }}" alt="pfp" >
+        {% else %}
+          <img src="https://furiends.s3.ca-central-1.amazonaws.com/furiends/blank-profile-picture-973460_1280.webp" alt="no pfp">
+        {% endif %}
+        {{ username }}
+      </div>
+    {% endif %}
+  </div>
+  <div id="feed-container" class="feed-container">
+    {% for post in posts %}
+      <div id="post-container">
+        {% for picture in photo %}
+          {% if picture.user.username == post.username %}
+            <div id="post-user-info">
+              <img src="{{ picture.url }}" id="post-pfp">
+              
+              {{ post.username }}
+          </div>
+          {% endif %}
+        {% endfor %}
+        <a href="{% url 'post_create' user_id post.id %}">
+        <img src="{{post.url}}" id="post-photos" alt="">
+        </a>
+        <div id="like-photo">
+              {% if post.liked %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="liked"></div>
+              </a>
+              {% else %}
+              <a href="{% url 'photo_like' user_id post.id %}">
+                <div id="like"></div>
+              </a>
+              {% endif %}
+          {% for like in photo_like %}
+            {% if like.photo_id == post.id %}
+              <div id="count">{{ like.photo_count }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div id="caption"><h6>{{ post.username }}</h4>: {{ post.caption }}</div>
+        <div id="comment-section">
+          {% for comment in comments %}
+            {% if post.id == comment.photo_id %}
+              <div id="comment"><span id="comment-username">{{comment.username}}:</span> {{ comment.caption }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    
+  </div>
+</div>
+
+<script>
+  let like = document.getElementById('like');
+  like.onclick = function () {
+    like.classList.toggle("liked");
+  };
+
+  let sidebar1 = document.querySelector(".feed-container");
+  
+  let toppy1 = localStorage.getItem("sidebar-scroll");
+  if (toppy1 !== null) {
+    sidebar1.scrollTop = parseInt(toppy1, 10);
+  }
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem("sidebar-scroll", sidebar1.scrollTop);
+  });
+</script>
+{% endblock %}
+
